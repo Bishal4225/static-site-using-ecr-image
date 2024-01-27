@@ -1,8 +1,12 @@
 FROM nginx
-COPY ./index.html /usr/share/nginx/html/index.html
-EXPOSE 80
-CMD ["index.html" "80"]
 
+RUN mkdir /app
+
+COPY index.html /app/index.html
+
+WORKDIR /app
+
+EXPOSE 8080
 
 
 # FROM php:8.1.18-apache-bullseye
