@@ -1,0 +1,27 @@
+{
+    "containerDefinitions": [
+      {
+        "name": "${site_name}-container",
+        "image": "${docker_registry}",
+        "cpu": 2,
+        "memory":256,
+        "essential": true,
+        "portMappings": [
+          {
+            "containerPort": 80,
+            "hostPort": 0
+          }
+        ],
+        "dockerLabels": {
+          "traefik.enable": "true",
+          "traefik.http.routers.${site_name}.rule": "Host(`${traefik_hosts}`)",
+          "traefik.http.routers.${site_name}.tls": "true",
+          "traefik.http.routers.${site_name}.entrypoints": "websecure",
+          "traefik.http.routers.${site_name}.middlewares": "${site_name}",
+          "traefik.http.middlewares.${site_name}.compress": "true"
+        }
+      }
+    ],
+    "family": "${site_name}-family"
+  }
+  
