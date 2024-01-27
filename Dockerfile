@@ -1,16 +1,14 @@
-FROM ubuntu:18.04
+FROM ubuntu
 
 RUN apt-get update
-RUN apt-get -y install nginx
 
-RUN mkdir /var/www/example.com
-COPY index.html /var/www/example.com/index.html
+RUN apt-get install nginx -y
 
-COPY example.com.conf /etc/nginx/sites-available
-RUN  ln -s /etc/nginx/sites-available/example.com.conf /etc/nginx/sites-enabled
-RUN  rm /etc/nginx/sites-enabled/default
+COPY index.html /var/www/html/
 
-CMD [ "nginx", "-g" , "daemon off;" ]
+EXPOSE 80
+
+CMD [“nginx”,”-g”,”daemon off;”]
 
 
 # FROM php:8.1.18-apache-bullseye
