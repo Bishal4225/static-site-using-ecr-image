@@ -28,7 +28,7 @@ name: Deploy LAMP site to DEV
 on:
   workflow_dispatch:
   push:
-       branches: [ test ]
+       branches: [ main ]
 
 jobs:
   
