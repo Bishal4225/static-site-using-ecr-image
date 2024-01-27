@@ -28,53 +28,41 @@ name: Deploy LAMP site to DEV
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
-    paths-ignore:
-      - '.db-scripts/**'
+       branches: [ test ]
 
 jobs:
-  deploy:
-    name: Deploy
+  
+  build:
+    
+    name: Build Image
     runs-on: ubuntu-latest
-    container:
-      image: docker:latest
-    environment: dev
 
+   
     steps:
-    - name: Checkout LAMP core
-      uses: actions/checkout@v2
-      with:
-        repository: AbbVie/lamp-core
-        token: ${{ secrets.LAMP_BOT_TOKEN }}
-        path: core
 
-    - name: Checkout site code
+    - name: Check out code
       uses: actions/checkout@v2
-      with:
-        path: site
-
+    
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-region: ${{ secrets.LAMP_AWS_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
 
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
     - name: Build, tag, and push image to Amazon ECR
-      id: build-image
       env:
-        SITE_TYPE: ${{ secrets.SITE_TYPE }}
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ${{ secrets.SITE_NAME }}
+        ECR_REPOSITORY: ${{ secrets.REPO_NAME }}
         IMAGE_TAG: ${{ github.sha }}
-        RELEASE: ${{ github.ref_name }}
       run: |
-        source ./core/site/${SITE_TYPE}/build-image.sh
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$RELEASE"
-
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        
     # - name: Update task definition
     #   id: update-task-definition
     #   env:
