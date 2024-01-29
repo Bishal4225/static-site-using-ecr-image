@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
+COPY ./app /app
+RUN pip install -r requirements.txt
+EXPOSE 80
+CMD ["uvicorn", "app_api:app", "--host", "0.0.0.0", "--port", "80"]
+=======
 FROM ubuntu
 
 RUN apt-get update
@@ -56,3 +63,4 @@ CMD [“nginx”,”-g”,”daemon off;”]
 
 # # Apache foreground
 # CMD [ "apache2ctl", "-D", "FOREGROUND" ]
+>>>>>>> main
