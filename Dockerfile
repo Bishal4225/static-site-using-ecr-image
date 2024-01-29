@@ -1,17 +1,10 @@
-<<<<<<< HEAD
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
-COPY ./app /app
-RUN pip install -r requirements.txt
-EXPOSE 80
-CMD ["uvicorn", "app_api:app", "--host", "0.0.0.0", "--port", "80"]
-=======
 FROM ubuntu
 
 RUN apt-get update
 
 RUN apt-get install nginx -y
 
-COPY index.html /var/www/html/
+COPY index.html /var/www/html/index.html
 
 EXPOSE 80
 
