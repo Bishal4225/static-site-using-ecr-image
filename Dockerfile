@@ -56,4 +56,3 @@ CMD [“nginx”,”-g”,”daemon off;”]
 
 # # Apache foreground
 # CMD [ "apache2ctl", "-D", "FOREGROUND" ]
->>>>>>> main
