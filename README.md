@@ -2,4 +2,4 @@
 
 Project that we are going to build in this complete practice course
 
-- Project - BRAND LANDING PAGE USING NGINX SERVER
+- Project - BRAND LANDING PAGE USING NGINX SERVEr via GITHUB Automation 
